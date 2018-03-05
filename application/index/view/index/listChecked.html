@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Document</title>
+    <script src="__PUBLIC__/jquery-min.js"></script>
+    <style>
+        #center{ width: 1300px; height: 300px; margin: 20px auto ; }
+
+        input[type=button],button{ height: 36px; width: 130px; }
+
+        #content{ width: 400px; height:30px; margin-top: 10px;}
+
+        th,td{ padding: 15px; }
+
+        .pagination>li{ list-style: none; display: inline-block; border: 1px solid #ccc; padding: 5px 10px; margin-left: 6px; }
+
+        #page{ text-align:center; }
+
+        form{ display:inline-block;}
+
+    </style>
+</head>
+<body id="body">
+<div id="center">
+<h2>查看已扫描记录</h2>
+<form action="/index/Index/listChecked" method="post" id="order_sub">
+    <input type="text" name="track_num" id="content">
+</form>
+
+    <input type="button" value="查询" id="subm">
+    <input type="button" value="取消" id="cancel">
+    <a href="/index/Index/export">
+        <button>导出所有扫描记录</button>
+    </a>
+    <span></span>
+    <a href="/index/Index/index">
+
+        <button>返回扫描快递</button>
+    </a>
+    <hr/>
+    <table>
+        <tr>
+            <th>物流单号</th>
+            <th>订单编号</th>
+            <th>商品编码</th>
+            <th>商品名称</th>
+            <th>商品属性</th>
+            <th>价格</th>
+            <th>下单时间</th>
+        </tr>
+
+        {volist name='list' id='data'}
+        <tr>
+            <td>{$data.track_num}</td>
+            <td>{$data.order_num}</td>
+            <td>{$data.pro_num}</td>
+            <td>{$data.name}</td>
+            <td>{$data.color}</td>
+            <td>{$data.price}</td>
+            <td>{$data.order_time}</td>
+        </tr>
+        {/volist}
+        <tr>
+            <td colspan="7" id="page">{$list->render()}</td>
+        </tr>
+    </table>
+</div>
+
+    <script type="text/javascript">
+    $(function(){ $('#content').focus(); });
+    $('#content').blur(function(){ $(this).focus(); });
+    $('#cancel').click(function(){ alert('this is cancel'); });
+    $(document).keypress(function(e){
+        if(e.which == 13){
+            $('#subm').click();
+        }
+    });
+    $('#subm').click(function(){
+        no=$('#content').val();
+        $('#order_sub').submit();
+    });
+</script>
+</body>
+</html>
